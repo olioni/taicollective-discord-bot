@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const Discord = require('discord.js');
 const math = require('mathjs')
 
@@ -31,4 +33,4 @@ client.on('messageCreate', (message) => {
 	}
 })
 
-client.login(token);
+client.login(process.env.TOKEN);
