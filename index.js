@@ -1,36 +1,28 @@
-require("dotenv").config()
-
 const Discord = require('discord.js');
-const math = require('mathjs')
-
-const token = "OTMyNTAxMjgxNDE3ODg3ODE1.YeT5fg.KfoZ-R4-X340GX3Jk1j62b3HNWU"
+require("dotenv").config()
 
 const client = new Discord.Client({
 	intents: [
 		"GUILDS",
-		"GUILD_MESSAGES"
+		"GUILD_MESSAGES",
 	]
 })
 
-client.on('ready', () => {
-	console.log(`Logged in as $(client.user.tag)`);
-});
-
-const cmds = ['']
-
-function checkForCmd(msg) {
-	
+let bot = {
+	client,
+	prefix: "!",
+	owners: ["172810582230040577", "636836439115563018"]
 }
 
-client.on('messageCreate', (message) => {
-	let msg = message.content
-	if (msg[0] === '!') {
-		if (msg.startsWith('!calc')) {
-			let eq = msg.split(' ')[1]
-			let answer = math.evaluate(eq).toString()
-			message.reply(answer)
-		}
-	}
-})
+client.commands = new Discord.Collection()
+client.events = new Discord.Collection()
+
+client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload)
+client.loadCommands = (bot, reload) => require("./handlers/commands")(bot, reload)
+
+client.loadEvents(bot, false)
+client.loadCommands(bot,false)
+
+module.exports = bot
 
 client.login(process.env.TOKEN);
