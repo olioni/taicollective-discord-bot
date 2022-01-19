@@ -2,7 +2,9 @@ const math = require('mathjs')
 
 function calculate(msg) {
     let str = msg.toString()
-    let q = str.split(' ')[1]
+    let arr = str.split(' ')
+    arr.splice(0, 1)
+    let q = arr.join(' ')
     let answer = math.evaluate(q)
     return answer.toString()
 }
